@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+#如果访问的页面存在则直接访问，不重定向
+    RewriteCond %{REQUEST_FILENAME} !-f
+#如果访问的路径存在则直接访问，不重定向
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+#如果访问的文件或目录是不存在的，重定向请求
+#到 index.php?url=<PARAMS>
+#eg. http://<ip>item/index
+#实际请求转变为： http://<ip>index.php?url=item/index
+#$_GET['url'] -> item/index
+    RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+</IfModule>
