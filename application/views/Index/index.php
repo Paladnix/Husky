@@ -93,7 +93,7 @@
 
 
                 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录结构说明</h2>
-                
+
                 <p>下面文中使用根目录来指代<code>localhost/project/</code>，未作额外说明的文档或文件夹均在根目录下。</p> 
                 <p>整个项目的文件结构如下：</p>
 <pre class="prettyprint linenums">
@@ -171,7 +171,7 @@ class TestController extends Controller{
      *  assign() 函数可以将键值对存储进视图模块中，交由视图模块进一步处理。
      *  render() 函数渲染视图，调用视图模块的函数进行渲染。
      */
-   
+
     public function index( $params ){
 
         $content = (new TestModel)->selectAll();
@@ -190,7 +190,7 @@ class TestController extends Controller{
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
      *   同样也可以带参数
      */
-    
+
     public function add(){
 
         $data['name'] = $_POST['value'];
@@ -227,13 +227,13 @@ class TestModel extends Model{
       */  
 
     public function selectAll(){
-        
+
         $sql = sprintf("select * from `%s` ", $this->_table);
 
         $sth = $this->_dbHandle->prepare($sql);
 
         if ( $sth->execute() )
-            
+
             return $sth->fetchAll();
 
         return 0;
@@ -282,7 +282,7 @@ class TestView extends View{
         $controllerHeader = APP_PATH.'application/views/'.$this->_controller.'/header.php';
         $controllerFooter = APP_PATH.'application/views/'.$this->_controller.'/footer.php';
         $controllerLayout = APP_PATH.'application/views/'.$this->_controller.'/'.$this->_action.'.php';
-        
+
         // Header
         if(file_exists ($controllerHeader)){
 
@@ -295,8 +295,8 @@ class TestView extends View{
 
         // Body
         $this->includePage($controllerLayout);
-        
-        
+
+
         // Footer       
         if(file_exists($controllerFooter)){
 

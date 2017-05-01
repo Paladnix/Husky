@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="<?php echo APP_URL ?>/css/page.css" />
         <link rel="stylesheet" href="<?php echo APP_URL ?>/css/google-code-prettify/prettify.css" />
 
+
+
         <!-- this needs to be loaded before guide's inline scripts -->
         <script>window.PAGE_TYPE = "guide"</script>
     </head>
