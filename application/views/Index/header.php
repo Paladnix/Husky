@@ -7,7 +7,7 @@
         <meta name="description" content="Husky - A Light PHP Web MVC Framework." />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-        <link rel="icon" href="images/logo.png" type="image/x-icon" />
+        <link rel="icon" href="<?php echo APP_URL ?>/images/logo.png" type="image/x-icon" />
 
 
         <!-- main page styles -->
@@ -19,3 +19,38 @@
     </head>
 
     <body class="docs" onload="prettyPrint()">
+
+        <div id="mobile-bar">
+            <a class="menu-button"></a>
+            <a class="logo" href="<?php echo APP_URL ?>"></a>
+        </div>
+
+        <div id="header">
+        <a id="logo" href="<?php echo APP_URL?>">
+        <img src="<?php echo APP_URL ?>/images/logo.png">
+                <span>Husky</span>
+            </a>
+            <ul id="nav">
+                <li><a href="<?php echo APP_URL ?>" class="nav-link current">教程</a></li>
+                <li><a href="https://github.com/Paladnix/Husky/" class="nav-link">GitHub</a></li>
+                <li><a href="<?php echo APP_URL."/index/author/" ?>" class="nav-link">About Author</a></li>
+            </ul>
+        </div>
+
+        <div id="main" class="fix-sidebar">
+
+
+            <div class="sidebar">
+                <ul class="main-menu">
+                 <!--   <li>
+                        <form id="search-form">
+                            <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+                        </form>
+                    </li>
+-->
+                    <li><a href="<?php echo APP_URL ?>" class="nav-link current">教程</a></li>
+                    <li><a href="https://github.com/Paladnix/Husky/" class="nav-link">GitHub</a></li>
+                    <li><a href="<?php echo APP_URL."/index/author/" ?>" class="nav-link">About Author</a></li>
+
+                </ul>
+                

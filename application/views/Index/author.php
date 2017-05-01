@@ -1,12 +1,12 @@
 
         <div id="mobile-bar">
             <a class="menu-button"></a>
-            <a class="logo" href="/"></a>
+            <a class="logo" href="<?php echo APP_URL?>"></a>
         </div>
 
         <div id="header">
-            <a id="logo" href="/">
-                <img src="images/logo.png">
+            <a id="logo" href="<?php echo APP_URL ?>">
+                <img src="<?php echo APP_URL?>/images/logo.png">
                 <span>Husky</span>
             </a>
             <ul id="nav">
