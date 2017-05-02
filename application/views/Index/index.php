@@ -10,6 +10,14 @@
 
 
             <div class="content guide with-sidebar index-guide">
+                <h2 id="update">更新列表(2017.5.2)</h2>
+               <ol>
+                    <li><p>更新View渲染方式，输入参数选择渲染对应部分, 无参数默认加载对应<code>action</code>的页面。</p></li>
+                    <li><p>删除SQL部分预设<code>select</code>函数，更改<code>querySQL($sql){}</code>和<code>selectSQL($sql){}</code>，分别用于执行插入或更新，查询语句。</p></li>
+                    <li><p>SQL 部分增加框架开发宏下的报错机制，开启框架开发宏，自动弹出warning信息。</p></li>
+                    <li><p>更新默认页面加载模式，将默认加载Index/文件夹下的<code>header.php、footer.php、index.php、error.php</code>，这四个页面必须有。</p></li>
+               </ol>
+
 
                 <h1 id="简介">简介</h1>
 
