@@ -1,7 +1,7 @@
                 <div class="list">
 
                     <ul class="menu-root">
-                        <li><h3>教程 Husky - 0.9</h3></li>
+                    <li><h3>教程 Husky - 0.9</h3></li>
                         <li><a href="#简介" class="sidebar-link current">简介</a></li>
                         <li><a href="#使用" class="sidebar-link ">使用</a></li>
                     </ul>

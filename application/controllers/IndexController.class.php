@@ -6,13 +6,13 @@ class IndexController extends Controller{
 
         $this->assign('title', '首页');
         $this->assign('content', 'php MVC');
-        $this->_view->render();
+        $this->render("index");
     }
 
 
     public function author()
     {
-        $this->_view->render();
+        $this->render("author");
     }
 }
 

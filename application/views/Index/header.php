@@ -33,9 +33,9 @@
                 <span>Husky</span>
             </a>
             <ul id="nav">
-                <li><a href="<?php echo APP_URL ?>" class="nav-link current">教程</a></li>
+            <li><a href="<?php echo APP_URL ?>" class="nav-link <?php if($action == "index") echo 'current';?>">教程</a></li>
                 <li><a href="https://github.com/Paladnix/Husky/" class="nav-link">GitHub</a></li>
-                <li><a href="<?php echo APP_URL."/index/author/" ?>" class="nav-link">About Author</a></li>
+                <li><a href="<?php echo APP_URL."/index/author/" ?>" class="nav-link <?php if($action == "author") echo 'current';?>">About Author</a></li>
             </ul>
         </div>
 

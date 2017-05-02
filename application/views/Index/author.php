@@ -1,23 +1,4 @@
 
-        <div id="mobile-bar">
-            <a class="menu-button"></a>
-            <a class="logo" href="<?php echo APP_URL?>"></a>
-        </div>
-
-        <div id="header">
-            <a id="logo" href="<?php echo APP_URL ?>">
-                <img src="<?php echo APP_URL?>/images/logo.png">
-                <span>Husky</span>
-            </a>
-            <ul id="nav">
-            <li><a href="<?php echo APP_URL ?>" class="nav-link">教程</a></li>
-                <li><a href="https://github.com/Paladnix/Husky/" class="nav-link">GitHub</a></li>
-                <li><a href="<?php echo APP_URL."/index/author/" ?>" class="nav-link current ">About Author</a></li>
-            </ul>
-        </div>
-
-        <div id="main" class="fix-sidebar">
-            <div class="sidebar">
                 <div class="list">
 
                     <ul class="menu-root">

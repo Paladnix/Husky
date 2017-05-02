@@ -1,16 +1,13 @@
 
+<!-- main custom script for sidebars, version selects etc. -->
 <script src="<?php echo APP_URL ?>/js/common.js"></script>
-<script type="text/javascript" src="<?php echo APP_URL ?>/js/jquery-3.2.1.min.js"></script>
+<script src="<?php echo APP_URL ?>/js/jquery-3.2.1.min.js"></script>
 <script src="<?php echo APP_URL ?>/js/smooth-scroll.min.js"></script>
 <script src="<?php echo APP_URL ?>/js/vue.js"></script>
-<!-- main custom script for sidebars, version selects etc. -->
-
-
 <!-- search -->
 <link href="https://cdn.bootcss.com/docsearch.js/1.4.4/docsearch.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<?php echo APP_URL ?>/css/search.css">
 <script src="https://cdn.bootcss.com/docsearch.js/1.4.4/docsearch.min.js"></script>
-
 <script>
 [
     '#search-query-nav',
