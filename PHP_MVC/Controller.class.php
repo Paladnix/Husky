@@ -21,13 +21,15 @@ class Controller{
         $this->_view->assign($name, $value);
     }
 
-    public function render(){
+    public function render( $action){
 
-        $this->_view->render();
+        if( $action == "" ) $action = $this->_action;
+
+        $this->_view->render( $action );
     }
 
     public function index(){
 
-        $this->_render();
+        $this->render( "index" );
     }
 }

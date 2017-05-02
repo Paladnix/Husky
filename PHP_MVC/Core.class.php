@@ -114,10 +114,10 @@ class Core{
 
             $array = array( '_SESSION', '_POST', '_GET', '_COOKIE', '_REQUEST', '_SERVER', '_ENV', '_FILES' );
 
-            foreach ($array as $values){
+            foreach ($array as $value){
                 
                 foreach ($GLOBALS[$value] as $key => $var){
-                 
+                 if($var === $GLOBALS[$key])
                     unset( $GLOBALS[$key] );
                 }
             }
@@ -181,7 +181,6 @@ class Core{
             //array_shift( $urlArray );
             $param = $urlArray ? $urlArray : array();
 
-            $param = implode('/', $param);
         }
 
         // 实例化控制器
@@ -194,7 +193,7 @@ class Core{
         if( method_exists($controller, $action) ){
 
             // 调用控制器的$action方法, 参数是$param
-            call_user_func_array( array( $dispatch, $action ), array($param ));
+            call_user_func_array( array( $dispatch, $action ), array( $param ));
         }
         else {
 

@@ -11,13 +11,15 @@ class Sql {
 
             $dsn = sprintf( "mysql:host=%s;dbname=%s;charset=utf8", $host, $dbname );
 
-            $option = array( PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC );
+            $option = array( PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC);
 
             $this->_dbHandle = new PDO($dsn, $user, $pass, $option);
 
+            if( APP_DEBUG ) $this->_dbHandle->setAttribute(PDO::ATTR_ERRMODE , PDO::ERRMODE_WARNING);
+
         }catch ( PDOException $e){
 
-            exit( "<br> Connect Error: $e->getMessage() <br>" );
+            exit( "<br><br><br><br><br> Connect Error: $e->getMessage() <br>" );
         }
     }
 
@@ -27,15 +29,37 @@ class Sql {
      *  子类中也要重写类似的代码
      */
 
-    public function query( $sql ){
+    public function querySQL( $sql ){
 
-        $sth = $this->_dbHandle->prepare($sql);
+        try{
 
-        $sth->execute();
+            $sth = $this->_dbHandle->prepare($sql);
+            
+            $sth->execute();
+
+        }catch(PDOException $e){
+
+            exit("<br><br><br><br> $sql has throw an error: $e->getMessage()  <br>");
+        }
 
         return $sth->rowCount();
     }
 
+    public function selectSQL( $sql ){
+
+        try{
+
+            $sth = $this->_dbHandle->prepare($sql);
+            
+            $sth->execute();
+
+        }catch(PDOException $e){
+
+            exit("<br><br><br><br>$sql has throw an error: $e->getMessage() <br><br>");
+        }
+
+        return $sth->fetchAll();
+    }
 
     /*
      *  将一个键值对数组转换成插入语句合法内容 
@@ -74,50 +98,25 @@ class Sql {
         return implode(',', $fields);
     }
 
+
+    public function formatWhere($data){
+        
+        $fields = array();
+
+        foreach( $data as $key => $value ){
+
+            $fields[] = sprintf(" `%s`='%s' ", $key, $value);
+        }
+
+        return implode(" and ", $fields);
+    }
+
+
+
 /*
  * 
  *   以下代码为default配置，Model类重写这些代码
  */
 
-    public function selectAll(){
-        
-        $sql = sprintf("select * from `%s` ", $this->_table);
-
-        $sth = $this->_dbHandle->prepare($sql);
-
-        if ( $sth->execute() )
-            
-            return $sth->fetchAll();
-
-        return 0;
-    }
-
-    public function select( $id ){
-
-        $sql = sprintf("select * from `%s` where `id`= '%s' ", $this->_table, $id);
-
-        $sth = $this->_dbHandle->prepare($sql);
-
-        if( $sth->execute() )
-
-            return $sth->fetch();
-
-        return 0;
-    }
-
-
-    public function insert( $data ){
-
-        $sql = sprintf( "insert into `%s` %s", $this->_table, $this->formatInsert($data) );
-
-        return $this->query($sql);
-    }
-
-    public function update ($id, $data){
-
-        $sql = sprintf( "update `%s` set %s where `id` = '%s' ", $this->_table, $this->formatUpdate($data), $id );
-
-        return $this->query($sql);
-    }
 
 }
