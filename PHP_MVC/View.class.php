@@ -34,26 +34,7 @@ class View{
     }
 
 
-    public function includePage( $page ){
-
-        if(file_exists($page)){
-
-            include($page);
-
-        }
-        else{
-
-            if( APP_DEBUG_FRA ) echo "<br>$page has not been found.<br>";
-
-     //       include($this->defaultLayout);
-        
-        } 
-
-    }
-
-
     public function render( $action ){
-
 
         // 将数组中的键值对的键转换成同名的变量
         extract($this->variables);
@@ -63,6 +44,7 @@ class View{
         $controllerHeader = APP_PATH.'application/views/'.$this->_controller.'/header.php';
         $controllerFooter = APP_PATH.'application/views/'.$this->_controller.'/footer.php';
         $controllerLayout = APP_PATH.'application/views/'.$this->_controller.'/'.$action.'.php';
+        $controller = $this->_controller;
 
         // Header
         if(file_exists ($controllerHeader)){
@@ -86,10 +68,9 @@ class View{
 
         else{
 
-            if( APP_DEBUG_FRA )
-                echo "<br> $controllerLayout has not been find.<br>";
+            if( APP_DEBUG_FRA ) echo "<br> $controllerLayout has not been find.<br>";
 
-            include($this->defaultLayout);
+            include($this->defaultError);
         } 
         
 

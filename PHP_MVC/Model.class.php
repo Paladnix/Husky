@@ -29,6 +29,7 @@ class Model extends Sql {
 
         $this->_table = strtolower( $this->_model );
 
+        $this->_columnType = $this->columnType();
     }
 
     function __destruct(){

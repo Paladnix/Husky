@@ -4,6 +4,7 @@ class Sql {
 
     protected $_dbHandle;
     protected $_table;
+    protected $_columnType = array();
 
     public function connect($host, $user, $pass, $dbname){
 
@@ -29,12 +30,25 @@ class Sql {
      *  子类中也要重写类似的代码
      */
 
+    public function columnType(){
+
+        $sql = sprintf("show columns from `%s`;", $this->_table);
+
+        $sth = $this->_dbHandle->prepare($sql);
+
+        $sth->execute();
+
+        return $sth->fetchAll();
+    }
+
     public function querySQL( $sql ){
+
+        if(APP_DEBUG_FRA) print_r( $sql);
 
         try{
 
             $sth = $this->_dbHandle->prepare($sql);
-            
+
             $sth->execute();
 
         }catch(PDOException $e){
@@ -49,8 +63,10 @@ class Sql {
 
         try{
 
+            if( APP_DEBUG_FRA ) echo "<br><br>$sql<br><br>";
+
             $sth = $this->_dbHandle->prepare($sql);
-            
+
             $sth->execute();
 
         }catch(PDOException $e){
@@ -64,7 +80,7 @@ class Sql {
     /*
      *  将一个键值对数组转换成插入语句合法内容 
      */
-    
+
     public function formatInsert($data) {
 
         $fields = array();
@@ -81,18 +97,28 @@ class Sql {
         return sprintf("(%s) values (%s) ", $field, $value);
     }
 
-    
+
     /*
      *  将一个键值对数组转化为update合法的字符串
      */
-    
+
     public function formatUpdate($data){
 
         $fields = array();
 
         foreach ( $data as $key => $value ){
 
-            $fields[] = sprintf(" `%s`='%s' ", $key, $value);
+            foreach( $this->_columnType as $row ){
+
+                if( $row['Field'] == $key) {
+
+                    if(strstr($row['Type'], "int") || strstr($row['Type'], "float") || strstr($row['Type'], "double"))
+                        $fields[] = sprintf(" `%s`= %s ", $key, $value);
+                    else
+                        $fields[] = sprintf(" `%s`='%s' ", $key, $value);
+                }
+
+            }
         }
 
         return implode(',', $fields);
@@ -100,7 +126,7 @@ class Sql {
 
 
     public function formatWhere($data){
-        
+
         $fields = array();
 
         foreach( $data as $key => $value ){
@@ -113,10 +139,10 @@ class Sql {
 
 
 
-/*
- * 
- *   以下代码为default配置，Model类重写这些代码
- */
+    /*
+     * 
+     *   以下代码为default配置，Model类重写这些代码
+     */
 
 
 }
