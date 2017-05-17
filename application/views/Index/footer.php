@@ -1,7 +1,6 @@
 
 <!-- main custom script for sidebars, version selects etc. -->
 <script src="<?php echo APP_URL ?>/js/common.js"></script>
-<script src="<?php echo APP_URL ?>/js/jquery-3.2.1.min.js"></script>
 <script src="<?php echo APP_URL ?>/js/smooth-scroll.min.js"></script>
 <script src="<?php echo APP_URL ?>/js/vue.js"></script>
 <!-- search -->

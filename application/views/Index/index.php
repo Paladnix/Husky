@@ -162,60 +162,115 @@ project/
 <pre class="prettyprint linenums">
 
 /*
- *   php 代码： /application/controllers/TestController.class.php
+ *  php 代码： /application/controllers/TestController.class.php
  *   
- *
  */
-
+ 
 class TestController extends Controller{
-
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * * * * * 当 url 为：localhost/project/test/ 时调用该函数 * * *
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 
+    /* 
+     *  当 url 为：localhost/project/test/ 或 localhost/project/text/index/ 时调用该函数 
+     * 
      *  index 可以做为默认打开页面时的处理函数，
      *  不写则默认调用父类的index函数，直接渲染页面。
-     *  该函数接受一个字符串参数$param, 该字符串是url中的参数，以'/'分隔；
+     *  该函数接受一个字符串数组参数 如：$params , 该字符串是url中的参数，数组中每个元素形如： id=2 ；
      *  每组参数使用 'name=value' 的形式存储。
      *  assign() 函数可以将键值对存储进视图模块中，交由视图模块进一步处理。
-     *  render() 函数渲染视图，调用视图模块的函数进行渲染。
+     *  render() 函数渲染视图，调用视图模块的函数进行渲染。 可以写一个参数用来标志：action
      */
-
+ 
     public function index( $params ){
-
+ 
         $content = (new TestModel)->selectAll();
-
+ 
         $this->assign('title', '全部条目');
-
+ 
         $this->assign('content', $content);
-
-        $this->_view->render();
+ 
+        $this->_view->render("index");
     }
-
-
-
+ 
+ 
+ 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * * * 当 url 为：localhost/project/test/add/ 时调用该函数 * *
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
      *   同样也可以带参数
      */
-
-    public function add(){
-
+ 
+    public function add( $params ){
+ 
         $data['name'] = $_POST['value'];
-
+ 
         $count = (new TestModel)->add($data);
-
+ 
         $this->assign('title', '添加成功');
         $this->assign('count', $count);
-        $this->_view->render();
+        
+        $this->_view->render("add");
     }
-
+ 
 }
 
 </pre>
 
 <p> 在Controller类中分别使用到了Model类和View类，所以需要再编写另外两个类。</p>
 
+
+
+
+
+                <h2 id="View"><a href="#View" class="headerlink" title="View"></a>编写 TestView 类</h2>
+
+<p> View 类默认只会加载对应 <code>/application/views/Test/</code>文件夹下的<code>head.php</code> 和 <code>footer.php</code> </p>
+
+<pre class="prettyprint linenums">
+
+/* 
+ *	php 代码： /application/views/TestView.class.php
+ */
+     
+class TestView extends View{
+ 
+    /*
+     *   对于不同的函数可以编写不同的前端组件，重写render函数按需加载组件
+     *   
+     *   此类对应上面的 TestController		
+     *
+     */ 
+ 
+    public function render( $action="index" ){
+    	
+    	if($action == "index"){
+    		$this->index(); return ;
+    	}
+    	else if($action == "add"){
+    		$this->add(); return ;
+    	}
+    	
+    }
+    
+    public function index( ){
+    	
+    	$pages[] = APP_PATH."/application/views/Index/header.php";
+    	$pages[] = APP_PATH."/application/views/Index/body.php";
+    	$pages[] = APP_PATH."/application/views/Index/footer.php";
+    	
+    	foreach( $pages as $page) $this->page($page);
+    }
+ 
+ 	public function add( ){
+    	
+    	$pages[] = APP_PATH."/application/views/Index/header.php";
+    	$pages[] = APP_PATH."/application/views/Index/add.php";
+    	$pages[] = APP_PATH."/application/views/Index/footer.php";
+    	
+    	foreach( $pages as $page) $this->page($page);
+    }
+}
+</pre>
+
+<p> 可以看出来我们真正的前端页面要写在 <code>/application/views/Test/</code> 文件夹下。可以分开组件来写，然后根据需求加载不同的组件。</p>
 
 
 
@@ -227,97 +282,53 @@ class TestController extends Controller{
 /*
  *  php 代码： /application/models/TestModel.class.php
  */
-
+ 
+ 
+ /*
+ 
+ 
+ 	$this->formatInsert($data) : 接受一个键值对数组，将其格式化为：键='值' ， 键='值' 的字符串， 如果对应字段为整形数，则没有引号
+ 
+ 	$this->formatWhere($data) : 键值对 -> 字符串，
+ 	
+ 	$this->formatUpdate($data) : 键值对 -> 字符串，
+ 
+ 	$this->selectSQL($sql) : 执行$sql 语句，并返回二维数组做为结果。
+ 	
+ 	$this->querySQL($sql) : 执行$sql 语句，返回被影响的行数。
+ */
+ 
+ 
 class TestModel extends Model{
-
+ 
      /*  例如需要将数据库中所有的记录都提取出来并返回一个二维数组记录所有的数据 
       *
       */  
-
+ 
     public function selectAll(){
-
+ 
         $sql = sprintf("select * from `%s` ", $this->_table);
-
-        $sth = $this->_dbHandle->prepare($sql);
-
-        if ( $sth->execute() )
-
-            return $sth->fetchAll();
-
-        return 0;
+ 
+        return $this->selectSQL($sql);
     }
-
-
+ 
+ 
     /*  如果要插入记录到数据库中，则将键值对存在 $data 中 
      *  query函数将返回受影响的行数
      */
-
+ 
     public function insert( $data ){
-
+ 
         $sql = sprintf( "insert into `%s` %s", $this->_table, $this->formatInsert($data) );
-
-        return $this->query($sql);
+ 
+        return $this->querySQL($sql);
     }
-
+ 
 }
 
 </pre>
 
 
-                <h2 id="View"><a href="#View" class="headerlink" title="View"></a>编写 TestView 类</h2>
-
-<p> View 类默认只会加载对应 <code>/application/views/Test/</code>文件夹下的<code>head.php</code> 和 <code>footer.php</code> </p>
-
-<pre class="prettyprint linenums">
-
-    /* php 代码： /application/views/TestView.class.php
-     */
-class TestView extends View{
-
-    /*
-     *   对于不同的函数可以编写不同的前端组件，重写render函数按需加载组件
-     *
-     */ 
-
-    public function render(){
-
-
-        // 将数组中的键值对的键转换成同名的变量
-        //extract($this->variables);
-
-        $vars = $this->variables;
-
-        $controllerHeader = APP_PATH.'application/views/'.$this->_controller.'/header.php';
-        $controllerFooter = APP_PATH.'application/views/'.$this->_controller.'/footer.php';
-        $controllerLayout = APP_PATH.'application/views/'.$this->_controller.'/'.$this->_action.'.php';
-
-        // Header
-        if(file_exists ($controllerHeader)){
-
-            include($controllerHeader);
-        }
-        else{
-
-            include($this->defaultHeader);
-        }
-
-        // Body
-        $this->includePage($controllerLayout);
-
-
-        // Footer       
-        if(file_exists($controllerFooter)){
-
-            include($controllerFooter);
-        }
-        else {
-
-            include($this->defaultFooter);
-        }
-
-}
-</pre>
-<p> 可以看出来我们真正的前端页面要写在 <code>/application/views/Test/</code> 文件夹下。可以分开组件来写，然后根据需求加载不同的组件。</p>
 
 
                <h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a> 注意 </h2>

@@ -18,6 +18,7 @@
 
         <!-- this needs to be loaded before guide's inline scripts -->
         <script>window.PAGE_TYPE = "guide"</script>
+<script src="<?php echo APP_URL ?>/js/jquery-3.2.1.min.js"></script>
     </head>
 
     <body class="docs" onload="prettyPrint()">
