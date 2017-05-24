@@ -8,7 +8,7 @@ class Controller{
     
 
     // View 和 Controller拥有同样的名称。
-    public function __construct( $controller, $action){
+    public function __construct( $controller=NULL, $action=NULL){
 
         $this->_controller = $controller;
         $this->_action = $action;
@@ -26,6 +26,11 @@ class Controller{
         if( $action == "" ) $action = $this->_action;
 
         $this->_view->render( $action );
+    }
+    public function page( $page ){
+        
+        $this->_view->page($page);
+
     }
 
     public function index(){

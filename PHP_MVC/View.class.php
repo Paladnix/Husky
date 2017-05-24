@@ -3,49 +3,80 @@
 
 class View{
 
-    protected $variables = array();
+    protected $variable = array();
     protected $_controller;
     protected $_action;
 
+    /*
     protected $defaultHeader = '';
     protected $defaultFooter = '';
     protected $defaultLayout = '';
     protected $defaultError  = '';
+     */
 
 
-    function __construct( $controller, $action ){
+    function __construct( $controller=NULL, $action=NULL ){
 
         $this->_controller = $controller;
 
         $this->_action = $action;
-    
+
+        /*
         $this->defaultHeader = APP_PATH.'application/views/Index/header.php';
         $this->defaultFooter = APP_PATH.'application/views/Index/footer.php';
         $this->defaultLayout = APP_PATH.'application/views/Index/index.php';
         $this->defaultError  = APP_PATH.'application/views/Index/error.php';
+         */
     }
 
 
     public function assign($name, $value){
 
-        $this->variables[$name] = $value;
+        $this->variable[$name] = $value;
 
-        if( APP_DEBUG_FRA ) echo "<br>设置变量 $name = $value 成功。<br>";
+        if( APP_DEBUG_FRA ) print_r($value);
+    }
+
+    public function get($name){
+
+        return $this->variable[$name];
+
+    }
+
+    public function page( $file ){
+
+        $vars = $this->variable;
+
+        if(file_exists ($file)){
+
+            if( APP_DEBUG_FRA ) echo "<br> include $file success.<br>";
+
+            include( $file );
+
+        }
+        else{
+
+            // include($this->defaultError);
+
+            echo "<br>include $file failed. Can't find it.<br>";
+        }
+
     }
 
 
-    public function render( $action ){
+    public function render($action){
 
         // 将数组中的键值对的键转换成同名的变量
-        extract($this->variables);
+        // extract($this->vars);
 
-        $vars = $this->variables;
+        $pages[] = APP_PATH.'application/views/Index/index.php';
 
-        $controllerHeader = APP_PATH.'application/views/'.$this->_controller.'/header.php';
-        $controllerFooter = APP_PATH.'application/views/'.$this->_controller.'/footer.php';
-        $controllerLayout = APP_PATH.'application/views/'.$this->_controller.'/'.$action.'.php';
-        $controller = $this->_controller;
+        foreach($pages as $page){
 
+            $this->page($page);
+        }
+
+/*
         // Header
         if(file_exists ($controllerHeader)){
 
@@ -88,6 +119,7 @@ class View{
 
             if( APP_DEBUG_FRA ) echo "<br>include $controllerFooter failed.<br>";
         }
+ */
 
     }
 }

@@ -12,6 +12,6 @@ require CONFIG_PATH.'config.php';
 
 require FRAME_PATH.'Core.class.php';
 
-$MVC = new Core;
+$PHP_MVC = new Core;
 
-$MVC->run();
+$PHP_MVC->run();

@@ -36,34 +36,34 @@ class Core{
             
             include $frameworks; 
 
-            if( APP_DEBUG_FRA ) echo "include PHP_MVC frameworks: $frameworks <br>";
+            if( APP_DEBUG_FRA ) echo "<br> include PHP_MVC frameworks: $frameworks success.<br>";
 
         }
         else if( file_exists( $controllers ) ){
             
             include $controllers;
 
-            if( APP_DEBUG_FRA ) echo "include controller: $controllers <br>";
+            if( APP_DEBUG_FRA ) echo "<br> include controller: $controllers success. <br>";
 
         }
         else if( file_exists( $models ) ){
             
             include $models;
 
-            if( APP_DEBUG_FRA ) echo "include models: $models <br>";
+            if( APP_DEBUG_FRA ) echo "<br> include models: $models success.<br>";
 
         }
         else if( file_exists( $views ) ){
             
             include $views;
 
-            if( APP_DEBUG_FRA ) echo "include views: $models <br>";
+            if( APP_DEBUG_FRA ) echo "<br> include views: $models <br>";
 
         }
         else{
             // deal with this error;
             // report this error;
-            if( APP_DEBUG_FRA ) echo "Nothing patch";
+            if( APP_DEBUG_FRA ) echo "<br> Can't find the class: $class <br>";
 
         }
     }
@@ -197,7 +197,7 @@ class Core{
         }
         else {
 
-            exit( $controller. "控制器不存在" );
+            exit( "$controller 控制器不存在 $action 函数。");
         }
     }
 
